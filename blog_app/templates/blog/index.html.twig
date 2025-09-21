@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Blog Jstore | Plusieurs articles publiés chaque jour ! {% endblock %}
+
+{% block slider %}
+    <!-- Slider retiré - géré par Vue.js séparé -->
+{% endblock %}
+
+{% block body %}
+    <div class="articles-infos">
+        <strong>{{articles | length}}</strong> articles retrouvés
+    </div>
+
+    <div class="articles">
+        {% for article in articles %}
+            <a href="/article/{{article.slug}}" class="article-item">
+                <!-- Badge catégorie -->
+                {% if article.categories|length > 0 %}
+                    <div class="article-category-badge">
+                        {{ article.categories[0].name }}
+                    </div>
+                {% endif %}
+
+                <!-- Image de l'article -->
+                <div class="article-image">
+                    <img src="{{ article.imageUrl }}" alt="Image de l'article : {{ article.title }}" loading="lazy">
+                </div>
+
+                <!-- Contenu de l'article -->
+                <div class="article-details">
+                    <h2 class="article-title">{{ article.title }}</h2>
+
+                    <!-- Section auteur + date -->
+                    <div class="article-author-section">
+                        <div class="article-author-picture">
+                            <img src="{{ asset('_assets/images/avatar_jstore.webp') }}" alt="Image de profil de {{ article.author.fullname }}" loading="lazy">
+                        </div>
+                        <div class="article-author-info">
+                            <div class="article-author-name">{{ article.author.fullname }}</div>
+                            <div class="article-createdAt">le {{ article.createdAtFrench }}</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

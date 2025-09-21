@@ -1,0 +1,30 @@
+# ===== SYMFONY BLOG_APP =====
+blog_app/var/
+blog_app/vendor/
+blog_app/.env.local
+blog_app/.env.local.php
+blog_app/.env.*.local
+blog_app/public/bundles/
+blog_app/public/build/
+blog_app/node_modules/
+
+# ===== VUE.JS MON-SLIDER-VUE =====
+mon-slider-vue/node_modules/
+mon-slider-vue/dist/
+mon-slider-vue/.env.local
+mon-slider-vue/.env.*.local
+
+# ===== FICHIERS SYSTÈME =====
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+
+# ===== FICHIERS SENSIBLES =====
+# Garder .env.prod mais PAS .env.local
+.env.local
+.env.*.local
+
+# ===== DOCUMENTATION TEMPORAIRE =====
+*_GUIDE.md

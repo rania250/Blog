@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+    <div class="article-detail">
+
+        <h1 class="article-title">{{ article.title }}</h1>
+
+        {% if article.imageUrl %}
+            <div class="article-image">
+                <img src="{{ asset(article.imageUrl) }}" alt="{{ article.title }}" loading="lazy">
+            </div>
+        {% endif %}
+
+        <div class="article-content">
+            {{ article.content | raw }}
+        </div>
+
+        <div class="article-meta">
+            <p><strong>Créé le :</strong> {{ article.createdAt|date('d/m/Y à H:i') }}</p>
+            {% if article.updatedAt %}
+                <p><strong>Modifié le :</strong> {{ article.updatedAt|date('d/m/Y à H:i') }}</p>
+            {% endif %}
+        </div>
+
+        <div class="article-actions">
+            <a href="{{ path('app_article_index') }}" class="btn btn-secondary">Retour à la liste</a>
+            <a href="{{ path('app_article_edit', {'id': article.id}) }}" class="btn btn-primary">Modifier</a>
+            <form method="post" action="{{ path('app_article_delete', {'id': article.id}) }}"
+                  onsubmit="return confirm('Supprimer cet article ?');" style="display: inline;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .article-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-title {
+            color: var(--main-color);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 2px solid var(--main-color);
+            padding-bottom: 15px;
+        }
+
+        .article-image {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .article-image img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-content {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .article-meta {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .article-meta p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .article-actions {
+            text-align: center;
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--main-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Articles{% endblock %}
+
+{% block body %}
+    <div class="admin-container">
+        <h1 class="admin-title">📝 Mes Articles</h1>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Slug</th>
+                    <th>Contenu</th>
+                    <th>Image</th>
+                    <th>Créé le</th>
+                    <th>Modifié le</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <td>{{ article.id }}</td>
+                        <td><strong>{{ article.title }}</strong></td>
+                        <td>{{ article.slug }}</td>
+                        <td>{{ article.content|striptags|slice(0, 50) }}{% if article.content|length > 50 %}...{% endif %}</td>
+                        <td>
+                            {% if article.imageUrl %}
+                                <img src="{{ asset(article.imageUrl) }}" alt="Image" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;">
+                            {% else %}
+                                <span style="color: #999;">Pas d'image</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ article.createdAt ? article.createdAt|date('d/m/Y à H:i') : '' }}</td>
+                        <td>{{ article.updatedAt ? article.updatedAt|date('d/m/Y à H:i') : 'Jamais' }}</td>
+                        <td>
+                            <a href="{{ path('app_article_show', {'id': article.id}) }}" title="Voir l'article">
+                                👁️
+                            </a>
+                            <a href="{{ path('app_article_edit', {'id': article.id}) }}" title="Modifier l'article">
+                                ✏️
+                            </a>
+                            <form method="post" action="{{ path('app_article_delete', {'id': article.id}) }}"
+                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?');"
+                                  class="delete-form">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
+                                <button type="submit" class="btn" title="Supprimer l'article">🗑️</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 50px;">
+                            <div style="font-size: 1.2rem; color: #666;">
+                                📝 Aucun article trouvé<br>
+                                <small>Commencez par créer votre premier article !</small>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ path('app_article_new') }}" class="create-new-btn">
+                ➕ CRÉER UN NOUVEL ARTICLE
+            </a>
+        </div>
+    </div>
+{% endblock %}

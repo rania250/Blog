@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+
+        <link
+                rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
+        />
+        <link rel="stylesheet" href="{{ asset('_assets/css/main.css') }}">
+    {% endblock %}
+</head>
+
+<body>
+<header>
+    <a href="{{ asset('/') }}">
+        <h2>Jstore</h2>
+    </a>
+    <nav>
+        <ul class="nav-bar flex aic">
+            <li class="nav-item"><a href="{{ asset('') }}">À propos</a></li>
+            <li class="nav-item down"><a href="#">Categories</a>
+                <ul class="nav-bar">
+                    {% for category in app.session.get("categories") %}
+                        <li class="nav-item"><a href="{{ asset('category/' ~ category.slug) }}">{{ category.name}} </a>({{category.articles| length}} articles)</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="nav-item"><a href="{{ asset('contact') }}">Contact</a></li>
+            {% if app.user %}
+                <li class="nav-item"><a href="{{ asset('account') }}">Compte</a></li>
+                <li class="nav-item"><a href="{{ asset('logout') }}">Se déconnecter</a></li>
+            {% else %}
+                <li class="nav-item"><a href="{{ asset('login') }}">Se connecter</a></li>
+                <li class="nav-item"><a href="{{ asset('register') }}">S'inscrire</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="nav-icon">
+        <i class="bi bi-card-heading"></i>
+    </div>
+</header>
+{% block slider %}{% endblock %}
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
+<footer>
+    <div class="container">
+        <div class="footer-content flex wrap">
+            <div class="footer-content-item flex-1 b">
+                <h2>Jstore | Blog</h2>
+                <p>Site d'informations et d'actualités sur tous les sujets relatifs à l'informatique,
+                    l'economie, la situation dans le monde, etc...
+                </p>
+            </div>
+            <div class="footer-content-item flex-1 b">
+                <h2>Mentions légales</h2>
+                <ul>
+                    <li><a href="{{ asset('') }}">Condition d'utilisation</a></li>
+                    <li><a href="{{ asset('') }}">Condition de ventes</a></li>
+                    <li><a href="{{ asset('') }}">Condition de publication</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</footer>
+
+<script src="{{ asset('_assets/js/jquery-3.6.1.js') }}"></script>
+<script src="{{ asset('_assets/js/select2.js') }}"></script>
+<script src="{{ asset('_assets/js/editor.js') }}"></script>
+<script src="{{ asset('_assets/js/main.js') }}"></script>
+
+
+{% block javascripts %}
+
+{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ article.title }} {% endblock %}
+
+{% block body %}
+
+    <div class="single-article">
+        <div class="article-image  animate__animated animate__bounce"
+             style="background-image: url({{ asset(article.imageUrl) }})"
+        >
+
+        </div>
+        <div class="article-details flex">
+            <div class="article-author-details">
+                <div class="article-author-picture">
+                    {% if article.author.profile.picture is defined %}
+                        <img src="{{ asset(article.author.profile.picture) }}" alt="image de profile de {{ article.author.fullname }}" loading="lazy">
+                    {% else %}
+                        <img src="{{ asset('_assets/images/avatar_jstore.webp') }}" alt="image de profile de {{ article.author.fullname }}" loading="lazy">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="article-content-details">
+                <h2 class="article-title"> {{ article.title }} </h2>
+                <div class="article-createdAt"> le {{ article.createdAtFrench }} </div>
+                <div class="article-categories flex wrap">
+                    {% for category in article.categories %}
+                        <a href="{{ asset('category/' ~ category.slug) }}" class="article-category-item badge"> {{ category.name }} ({{ category.articles | length }} articles publiés) </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="content animate__backInUp">
+            {{ article.content | raw }}
+        </div>
+    </div>
+
+{% endblock %}
