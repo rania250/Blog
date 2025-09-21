@@ -1,0 +1,26 @@
+# Ignorer les fichiers de développement
+.git
+.gitignore
+README.md
+CompteRendu.pdf
+
+# Dossiers de cache et logs
+var/cache/*
+var/log/*
+var/sessions/*
+
+# Node modules (si présents)
+node_modules/
+npm-debug.log
+
+# Fichiers de configuration locale
+.env.local
+.env.test
+.env.dev
+
+# Dossiers vendor sera recréé par composer
+vendor/
+
+# Fichiers temporaires
+.DS_Store
+Thumbs.db
