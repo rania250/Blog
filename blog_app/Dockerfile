@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     && a2enmod rewrite
 
 # Installation de Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Configuration d'Apache pour Symfony
 RUN echo '<VirtualHost *:80>\n\
@@ -32,7 +32,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Installation des dépendances Composer
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Permissions pour les dossiers var et public
 RUN chown -R www-data:www-data var/ public/ && \
