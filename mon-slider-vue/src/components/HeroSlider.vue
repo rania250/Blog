@@ -81,7 +81,9 @@ const fetchSlides = async () => {
 
   try {
     console.log("🔄 Chargement des slides depuis Symfony...");
-    const response = await fetch("http://localhost:8000/api/slides");
+    // URL de l'API - sera remplacée par l'URL Render en production
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
+    const response = await fetch(`${apiUrl}/api/slides`);
 
     if (!response.ok) {
       throw new Error(`Erreur HTTP: ${response.status}`);
